@@ -4,8 +4,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
 
 class HttpPoolConnection {
 
-
-
     companion object {
         val poolManager by lazy {
             val poolManager = PoolingHttpClientConnectionManager()

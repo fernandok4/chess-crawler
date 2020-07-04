@@ -9,7 +9,7 @@ class ApplicationTest: Spek({
 
     describe("run"){
         on("run"){
-            application.run()
+
         }
     }
 })
