@@ -16,4 +16,10 @@ class ChessDatabaseCrawlerTest: Spek({
             chessDatabaseCrawler.getGameMoves(file.readText())
         }
     }
+
+    describe("readGame"){
+        on("readGame"){
+            chessDatabaseCrawler.readGame(1013852)
+        }
+    }
 })

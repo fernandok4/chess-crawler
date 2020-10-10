@@ -2,22 +2,19 @@ package com.kanashiro.chess
 
 import com.kanashiro.crawler.ChessDatabaseCrawler
 import com.kanashiro.database.DatabasePoolConnection
-import com.mysql.jdbc.Statement
 
 class ChessDAO {
 
-    fun insertChessGame(resultGame: String): Long {
+    fun insertChessGame(idGame: Long, resultGame: String) {
         val sql = """
-            INSERT INTO tb_game(result)
-            VALUES(?)
+            INSERT INTO tb_game(id_game, result)
+            VALUES(?, ?)
         """.trimIndent()
         return DatabasePoolConnection.getConnection().use {
-            it.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS).use {
-                it.setString(1, resultGame)
+            it.prepareStatement(sql).use {
+                it.setLong(1, idGame)
+                it.setString(2, resultGame)
                 it.execute()
-                val keys = it.generatedKeys
-                keys.next()
-                keys.getLong(1)
             }
         }
     }

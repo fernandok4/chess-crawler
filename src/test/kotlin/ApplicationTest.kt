@@ -5,11 +5,9 @@ import org.jetbrains.spek.api.dsl.on
 
 class ApplicationTest: Spek({
 
-    val application = Application()
-
     describe("run"){
         on("run"){
-
+            Application.main(arrayOf())
         }
     }
 })

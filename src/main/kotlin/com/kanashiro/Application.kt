@@ -11,7 +11,7 @@ class Application {
         private val future: MutableList<Future<*>> = mutableListOf()
         @JvmStatic
         fun main(args: Array<String>) {
-            for(i in 1013642L..1014642L){
+            for(i in 1013642L..1023642L){
                 future.add(executor.submit(ChessCrawlerJob(i)))
             }
         }
