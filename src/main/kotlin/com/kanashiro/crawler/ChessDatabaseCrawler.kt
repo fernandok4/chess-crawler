@@ -43,6 +43,4 @@ class ChessDatabaseCrawler {
         moves.add(ChessVO.CrawledGameMoves(moves.size, result))
         return moves
     }
-
-
 }
