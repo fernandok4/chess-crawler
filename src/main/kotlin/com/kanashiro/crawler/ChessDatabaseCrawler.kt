@@ -1,5 +1,6 @@
 package com.kanashiro.crawler
 
+import com.kanashiro.chess.ChessVO
 import com.kanashiro.utils.Exceptions
 import org.apache.commons.logging.LogFactory
 import org.apache.http.client.methods.HttpGet
@@ -12,7 +13,7 @@ class ChessDatabaseCrawler {
     private val CHESS_GAMES_URL = "https://www.chessgames.com"
     val logger = LogFactory.getLog(ChessDatabaseCrawler::class.java)
 
-    fun readGame(idGame: Long): MutableList<ChessMoves> {
+    fun readGame(idGame: Long): MutableList<ChessVO.CrawledGameMoves> {
         logger.info("Starting to read game id: ${idGame}")
         val httpClient = HttpClients.custom().setConnectionManager(HttpPoolConnection.poolManager).build()
         val gameUrl = "$CHESS_GAMES_URL/perl/chessgame?gid=$idGame"
@@ -24,7 +25,7 @@ class ChessDatabaseCrawler {
         return gameMoves
     }
 
-    fun getGameMoves(html: String): MutableList<ChessMoves> {
+    fun getGameMoves(html: String): MutableList<ChessVO.CrawledGameMoves> {
         val document = Jsoup.parse(html)
         val gameInfo = document.getElementById("olga-data")
         if(gameInfo == null){
@@ -36,15 +37,12 @@ class ChessDatabaseCrawler {
         val result = gameResultRegex.findAll(attribute).first().value
         val moves = turnsRegex.findAll(attribute).toList().mapTo(mutableListOf()) {
             val move = it.value.split(".")
-            ChessMoves(move.first().toInt(), move.last().removeSuffix(result))
+            ChessVO.CrawledGameMoves(move.first().toInt(), move.last().removeSuffix(result))
         }
         moves.last().dsMovement = moves.last().dsMovement.removeSuffix("1").removeSuffix("0")
-        moves.add(ChessMoves(moves.size, result))
+        moves.add(ChessVO.CrawledGameMoves(moves.size, result))
         return moves
     }
 
-    data class ChessMoves(
-        val idMove: Int = 1,
-        var dsMovement: String = ""
-    )
+
 }
