@@ -6,7 +6,6 @@ import java.io.File
 import java.sql.Connection
 import java.util.*
 
-
 class DatabasePoolConnection {
     companion object {
         private val ds: HikariDataSource by lazy {
@@ -18,6 +17,7 @@ class DatabasePoolConnection {
             config.setUsername(properties.getProperty("CHESS_CRAWLER_USERNAME"))
             config.setPassword(properties.getProperty("CHESS_CRAWLER_PASSWORD"))
             config.addDataSourceProperty( "useSSL", "false")
+            config.addDataSourceProperty("rewriteBatchedStatements", "true")
             config.connectionTimeout = 10000
             config.idleTimeout = 30000
             config.maximumPoolSize = 10

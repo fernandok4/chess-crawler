@@ -1,19 +1,59 @@
 package com.kanashiro.chess
 
 import com.kanashiro.database.DatabasePoolConnection
+import java.sql.Statement
 
 class ChessDAO {
 
-    fun insertChessGame(idGame: Long, resultGame: String) {
+    fun insertChessGame(resultGame: ChessVO.GameResult) {
         val sql = """
-            INSERT INTO tb_game(id_game, result)
-            VALUES(?, ?)
+            INSERT INTO tb_game(result, nm_event, nm_site, date, round, nm_white_player, nm_black_player, 
+            vl_white_elo, vl_black_elo, cd_eco)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """.trimIndent()
         return DatabasePoolConnection.getConnection().use {
             it.prepareStatement(sql).use {
-                it.setLong(1, idGame)
-                it.setString(2, resultGame)
+                var i = 0
+                it.setString(++i, resultGame.result)
+                it.setString(++i, resultGame.nmEvent)
+                it.setString(++i, resultGame.nmSite)
+                it.setString(++i, resultGame.date)
+                it.setString(++i, resultGame.round)
+                it.setString(++i, resultGame.nmWhitePlayer)
+                it.setString(++i, resultGame.nmBlackPlayer)
+                it.setString(++i, resultGame.vlWhiteElo)
+                it.setString(++i, resultGame.vlBlackElo)
+                it.setString(++i, resultGame.cdEco)
                 it.execute()
+            }
+        }
+    }
+
+    fun insertChessGames(games: MutableList<ChessVO.GameResult>) {
+        val sql = """
+            INSERT INTO tb_game(result, nm_event, nm_site, date, round, nm_white_player, nm_black_player, 
+            vl_white_elo, vl_black_elo, cd_eco)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """.trimIndent()
+        return DatabasePoolConnection.getConnection().use {
+            it.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS).use {
+                for(resultGame in games){
+                    var i = 0
+                    it.setString(++i, resultGame.result)
+                    it.setString(++i, resultGame.nmEvent)
+                    it.setString(++i, resultGame.nmSite)
+                    it.setString(++i, resultGame.date)
+                    it.setString(++i, resultGame.round)
+                    it.setString(++i, resultGame.nmWhitePlayer)
+                    it.setString(++i, resultGame.nmBlackPlayer)
+                    it.setString(++i, resultGame.vlWhiteElo)
+                    it.setString(++i, resultGame.vlBlackElo)
+                    it.setString(++i, resultGame.cdEco)
+                    it.execute()
+                    val generatedKeys = it.generatedKeys
+                    generatedKeys.next()
+                    insertMoves(generatedKeys.getLong(1), resultGame.moves)
+                }
             }
         }
     }
@@ -55,5 +95,22 @@ class ChessDAO {
             }
         }
         return result
+    }
+
+    fun deleteGames() {
+        val sql1 = """
+            DELETE FROM tb_game_turns WHERE id_game >= 0
+        """.trimIndent()
+        val sql2 = """
+            DELETE FROM tb_game WHERE id_game >= 0
+        """.trimIndent()
+        DatabasePoolConnection.getConnection().use {
+            it.prepareStatement(sql1).execute()
+            it.prepareStatement(sql2).execute()
+        }
+    }
+
+    fun insertGames(games: MutableList<ChessVO.GameResult>) {
+        insertChessGames(games)
     }
 }

@@ -1,5 +1,7 @@
 package com.kanashiro
 
+import com.kanashiro.chess.ChessDAO
+import com.kanashiro.chess.ChessVO
 import com.kanashiro.crawler.ChessPgnMentorCrawler
 
 class ReadPgnMentorApplication {
@@ -7,13 +9,20 @@ class ReadPgnMentorApplication {
 
         val downloadAllGames = System.getenv().getOrDefault("ENV_DOWNLOAD_ALL_GAMES", "0")
         val crawler = ChessPgnMentorCrawler()
+        val chessDAO = ChessDAO()
 
         @JvmStatic
         fun main(args: Array<String>) {
             if(downloadAllGames == "1"){
                 crawler.downloadFiles()
             }
-            crawler.parsePgnFiles()
+            val games = crawler.parsePgnFiles()
+            insertChessGames(games)
+        }
+
+        private fun insertChessGames(games: MutableList<ChessVO.GameResult>) {
+            chessDAO.deleteGames()
+            chessDAO.insertGames(games)
         }
     }
 }
