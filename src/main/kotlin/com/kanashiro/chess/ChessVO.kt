@@ -3,6 +3,7 @@ package com.kanashiro.chess
 class ChessVO {
 
     data class GameResult(
+            var idGame: Long = 0,
             var result: String = "",
             var nmEvent: String = "",
             var nmSite: String = "",

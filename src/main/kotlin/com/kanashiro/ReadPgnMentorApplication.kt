@@ -22,7 +22,8 @@ class ReadPgnMentorApplication {
 
         private fun insertChessGames(games: MutableList<ChessVO.GameResult>) {
             chessDAO.deleteGames()
-            chessDAO.insertGames(games)
+            chessDAO.insertChessGames(games)
+            chessDAO.insertChessGamesMovements(games)
         }
     }
 }

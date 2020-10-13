@@ -8,9 +8,12 @@ import org.jetbrains.spek.api.dsl.on
 import java.io.File
 
 class ChessDAOTest: Spek({
+
+    val dao = ChessDAO()
+
     describe("getAllGames"){
         on("getAllGames"){
-            val result = ChessDAO().getAllGames()
+            val result = dao.getAllGames()
             for(item in result){
                 val file = File("out/${item.key}.json")
                 file.writeText(Gson().toJson(item.value))
