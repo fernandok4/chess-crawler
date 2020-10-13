@@ -63,12 +63,14 @@ class ChessDAO {
         }
     }
 
-    fun getAllGames(): MutableMap<Long, ChessVO.GameResult> {
+    fun getAllGames(page: Int, limit: Int): MutableMap<Long, ChessVO.GameResult> {
         val sql = """
             SELECT 
                 id_game, result, nm_event, nm_site, date, round, nm_white_player, nm_black_player, 
                 vl_white_elo, vl_black_elo, cd_eco, id_turn, ds_turn_moves
-            FROM tb_game
+            FROM (
+                SELECT * FROM tb_game LIMIT $limit OFFSET ${page * limit}
+            ) tb_game
             INNER JOIN tb_game_turns USING(id_game)
         """.trimIndent()
         val result = mutableMapOf<Long, ChessVO.GameResult>()
