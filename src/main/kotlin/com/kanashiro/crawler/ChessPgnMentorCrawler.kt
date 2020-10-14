@@ -15,7 +15,7 @@ import java.util.zip.ZipInputStream
 class ChessPgnMentorCrawler {
 
     private val URL = "https://www.pgnmentor.com/"
-    val turnsRegex = Regex("([O0]-[O0]-[O0])|([O0]-[O0])|([QKRBN]?[abcdefgh]?[12345678]?x?[QKRBN]?[abcdefgh]+[12345678])")
+    val turnsRegex = Regex("([O0]-[O0]-[O0])|([O0]-[O0])|([QKRBN]?[abcdefgh]?[12345678]?x?[QKRBN]?[abcdefgh]+[12345678])=?[QRBN]?")
     val gameResultRegex = Regex("((1\\/2-1\\/2)|(1-0)|(0-1))(?!\")")
     val valuesRegex = Regex("\"(.*?)\"")
     val keysRegex = Regex("\\[\\w+(?= )")

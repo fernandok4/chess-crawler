@@ -5,7 +5,7 @@ import java.sql.Statement
 
 class ChessDAO {
 
-    val fetchSize = 1000
+    val fetchSize = 2500
 
     fun insertChessGame(resultGame: ChessVO.GameResult) {
         val sql = """
@@ -101,10 +101,10 @@ class ChessDAO {
 
     fun deleteGames() {
         val sql1 = """
-            DELETE FROM tb_game_turns WHERE id_game >= 0
+            DELETE FROM tb_game_turns
         """.trimIndent()
         val sql2 = """
-            DELETE FROM tb_game WHERE id_game >= 0
+            DELETE FROM tb_game
         """.trimIndent()
         DatabasePoolConnection.getConnection().use {
             it.prepareStatement(sql1).execute()
