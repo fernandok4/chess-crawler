@@ -4,4 +4,4 @@ build/
 bin/
 database.properties
 out/*
-downloads/*shiro
+downloads/*
