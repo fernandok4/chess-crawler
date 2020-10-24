@@ -1,4 +1,4 @@
-package com.kanashiro.crawler
+package com.kanashiro.http
 
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
 

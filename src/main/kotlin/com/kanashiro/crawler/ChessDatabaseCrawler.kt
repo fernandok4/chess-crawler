@@ -1,6 +1,7 @@
 package com.kanashiro.crawler
 
 import com.kanashiro.chess.ChessVO
+import com.kanashiro.http.HttpPoolConnection
 import com.kanashiro.utils.Exceptions
 import org.apache.commons.logging.LogFactory
 import org.apache.http.client.methods.HttpGet
@@ -8,6 +9,7 @@ import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
 import org.jsoup.Jsoup
 
+// It's deprecated due to a better web site to crawl
 class ChessDatabaseCrawler {
 
     private val CHESS_GAMES_URL = "https://www.chessgames.com"

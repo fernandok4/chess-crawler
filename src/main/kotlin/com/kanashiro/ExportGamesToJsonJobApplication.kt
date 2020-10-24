@@ -8,6 +8,7 @@ class ExportGamesToJsonJobApplication {
 
     companion object {
 
+        val filePath = System.getenv("CHESS_FILES_PATH")
         val dao = ChessDAO()
 
         @JvmStatic
@@ -16,7 +17,7 @@ class ExportGamesToJsonJobApplication {
             var result = dao.getAllGames(i++, 20000)
             while(result.isNotEmpty()){
                 for(item in result){
-                    val file = File("out/${item.key}.json")
+                    val file = File("$filePath${item.key}.json")
                     file.writeText(Gson().toJson(item.value))
                 }
                 result = dao.getAllGames(i++, 20000)

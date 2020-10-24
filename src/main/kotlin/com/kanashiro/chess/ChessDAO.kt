@@ -7,30 +7,6 @@ class ChessDAO {
 
     val fetchSize = 2500
 
-    fun insertChessGame(resultGame: ChessVO.GameResult) {
-        val sql = """
-            INSERT INTO tb_game(result, nm_event, nm_site, date, round, nm_white_player, nm_black_player, 
-            vl_white_elo, vl_black_elo, cd_eco)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """.trimIndent()
-        return DatabasePoolConnection.getConnection().use {
-            it.prepareStatement(sql).use {
-                var i = 0
-                it.setString(++i, resultGame.result)
-                it.setString(++i, resultGame.nmEvent)
-                it.setString(++i, resultGame.nmSite)
-                it.setString(++i, resultGame.date)
-                it.setString(++i, resultGame.round)
-                it.setString(++i, resultGame.nmWhitePlayer)
-                it.setString(++i, resultGame.nmBlackPlayer)
-                it.setString(++i, resultGame.vlWhiteElo)
-                it.setString(++i, resultGame.vlBlackElo)
-                it.setString(++i, resultGame.cdEco)
-                it.execute()
-            }
-        }
-    }
-
     fun insertChessGames(games: MutableList<ChessVO.GameResult>) {
         val sql = """
             INSERT INTO tb_game(id_game, result, nm_event, nm_site, date, round, nm_white_player, nm_black_player, 

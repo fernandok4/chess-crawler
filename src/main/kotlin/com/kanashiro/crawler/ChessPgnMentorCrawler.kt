@@ -1,13 +1,13 @@
 package com.kanashiro.crawler
 
 import com.kanashiro.chess.ChessVO
+import com.kanashiro.http.HttpPoolConnection
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
 import org.jsoup.Jsoup
 import java.io.File
-import java.lang.Exception
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.zip.ZipInputStream
